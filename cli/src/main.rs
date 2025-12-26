@@ -1,22 +1,15 @@
 use std::collections::HashSet;
 
 // use altrepolib::api::export::get_branch_binary_packages;
-use altrepolib::api::packageset::get_repository_statistics;
+// use altrepolib::api::packageset::get_repository_statistics;
+use altrepolib::helpers::{get_full_list_of_architectures, get_list_of_architectures, get_list_of_branches};
 
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    let res = get_repository_statistics(None).await?;
-    let branches: Vec<String> = res.branches.clone().into_iter().map(|el | {el.branch}).collect();
-    println!("Branches: {:?}", branches);
-
-    for branch in res.branches.clone().into_iter() {
-        println!("Branch: {}", branch.branch);
-
-        let arches: HashSet<String> = branch.packages_count.into_iter().map(|el| {el.arch}).collect();
-        println!("Arches: {:?}", arches);
-
+    let res = get_full_list_of_architectures().await?;
+    for el in res.into_iter() {
+        println!("{}: {:?}", el.0.to_uppercase(), el.1);
     }
-    
     Ok(())
 }
