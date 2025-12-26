@@ -1,15 +1,18 @@
-use std::collections::HashSet;
+use std::collections::{HashMap, HashSet};
 
 // use altrepolib::api::export::get_branch_binary_packages;
 // use altrepolib::api::packageset::get_repository_statistics;
-use altrepolib::helpers::{get_full_list_of_architectures, get_list_of_architectures, get_list_of_branches};
+use altrepolib::helpers::{get_branch_diff, get_full_list_of_architectures, get_list_of_architectures, get_list_of_branches};
 
+const BRANCH_1: &str = "p10";
+const BRANCH_2: &str = "p11";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
-    let res = get_full_list_of_architectures().await?;
-    for el in res.into_iter() {
-        println!("{}: {:?}", el.0.to_uppercase(), el.1);
-    }
+
+    let res = get_branch_diff(BRANCH_1, BRANCH_2).await?;
+
+    println!("{}", serde_json::to_string(&res)?);
+    
     Ok(())
 }

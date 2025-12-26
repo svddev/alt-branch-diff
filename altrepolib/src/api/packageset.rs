@@ -2,7 +2,7 @@ use std::{str::FromStr, time::Duration};
 use reqwest::{Client, Url};
 
 use crate::constants::REQUEST_TIMEOUT;
-use crate::schemas::packageset::RepositoryStatisticsResponse;
+use crate::schemas::api::packageset::RepositoryStatisticsResponse;
 
 pub async fn get_repository_statistics(branch: Option<&str>) -> anyhow::Result<RepositoryStatisticsResponse> {
     let url: Url;

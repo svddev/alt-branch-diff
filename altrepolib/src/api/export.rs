@@ -1,6 +1,6 @@
 use std::{str::FromStr, time::Duration};
 use reqwest::{Client, Url};
-use crate::schemas::export::BBPResponse;
+use crate::schemas::api::export::BBPResponse;
 use crate::constants::REQUEST_TIMEOUT;
 
 pub async fn get_branch_binary_packages(branch: &str, arch: Option<&str>) -> anyhow::Result<BBPResponse> {
