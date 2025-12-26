@@ -1,24 +1,24 @@
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct RepositoryStatisticsResponse {
-    length: usize,
-    branches: Vec<BranchInfo>,
+    pub length: usize,
+    pub branches: Vec<BranchInfo>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct BranchInfo {
-    branch: String,
-    date_update: String,
-    packages_count: Vec<PackagesCountInfo>,
+    pub branch: String,
+    pub date_update: String,
+    pub packages_count: Vec<PackagesCountInfo>,
 }
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Clone, Debug, Deserialize, Serialize)]
 pub struct PackagesCountInfo {
-    arch: String,
-    component: String,
-    count: usize,
-    size: usize,
-    size_hr: String,
-    uuid: String,
+    pub arch: String,
+    pub component: String,
+    pub count: usize,
+    pub size: usize,
+    pub size_hr: String,
+    pub uuid: String,
 }
