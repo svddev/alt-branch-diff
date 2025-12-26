@@ -1,5 +1,7 @@
 # alt-branch-diff
-alt linux branch difference that using api by basealt
+Alt linux branch difference that uses BaseALT experimental API
+
+Tested on: _Alt Regular JeOS (December 2025)_
 
 ## Runtime dependencies
 ```zsh
@@ -25,4 +27,4 @@ cd alt-branch-diff/
 cargo build --release
 ```
 
-You can find the binary in `alt-branch-diff/target/release/` named `cli`
+Then you can find the binary in `alt-branch-diff/target/release/` named `cli`
