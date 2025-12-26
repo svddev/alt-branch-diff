@@ -1,0 +1,1 @@
+pub const REQUEST_TIMEOUT: u64 = 60;
