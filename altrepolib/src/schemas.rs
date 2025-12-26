@@ -3,7 +3,7 @@ use std::collections::HashMap;
 
 pub mod api;
 
-#[derive(Clone, Debug, Deserialize, Serialize, Hash)]
+#[derive(Clone, Debug, Eq, Deserialize, Serialize, Hash)]
 pub struct PackageInfo {
     pub name: String,
     pub epoch: usize,
@@ -21,7 +21,6 @@ impl PartialEq for PackageInfo {
     }
 }
 
-impl Eq for PackageInfo {}
 
 
 pub type DiffResult = HashMap<String, DiffResultArch>;
