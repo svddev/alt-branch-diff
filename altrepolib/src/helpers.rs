@@ -1,15 +1,24 @@
 use crate::api::{export::get_branch_binary_packages, packageset::get_repository_statistics};
-use crate::constants::ARCHES;
+use crate::constants::PSEUDO_ARCHES;
 use crate::schemas::{DiffResult, DiffResultArch, PackageInfo};
+
 use std::collections::{HashMap, HashSet};
 
 pub async fn get_branch_diff(branch_1: &str, branch_2: &str) -> anyhow::Result<DiffResult> {
 
     let mut result = DiffResult::new();
     
-    for arch in ARCHES {
-   
-        let b1_packages = get_branch_binary_packages(branch_1, Some(arch))
+    let b1_arches = get_list_of_architectures(branch_1).await?;
+    let b2_arches = get_list_of_architectures(branch_2).await?;
+
+    let arches = b1_arches
+        .intersection(&b2_arches)
+        .filter(|el| { !PSEUDO_ARCHES.contains(&el.as_str()) })
+        .cloned()
+        .collect::<Vec<String>>();
+
+    for arch in arches {   
+        let b1_packages = get_branch_binary_packages(branch_1, Some(arch.as_str()))
             .await?
             .packages
             .into_iter()
@@ -17,7 +26,7 @@ pub async fn get_branch_diff(branch_1: &str, branch_2: &str) -> anyhow::Result<D
 
         let b1_packages_names = b1_packages.clone().into_iter().map(|el| {el.name}).collect::<HashSet<String>>();
 
-        let b2_packages = get_branch_binary_packages(branch_2, Some(arch))
+        let b2_packages = get_branch_binary_packages(branch_2, Some(arch.as_str()))
             .await?
             .packages
             .into_iter()
@@ -55,7 +64,7 @@ pub async fn get_branch_diff(branch_1: &str, branch_2: &str) -> anyhow::Result<D
             .map(|el| { el.0 })
             .collect();
 
-        result.insert(arch.to_string(), DiffResultArch { additional_packages: a_packages, missing_packages: b_packages, version_greater: c });
+        result.insert(arch, DiffResultArch { additional_packages: a_packages, missing_packages: b_packages, version_greater: c });
     }
 
     Ok(result)

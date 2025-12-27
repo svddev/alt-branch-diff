@@ -3,6 +3,9 @@ Alt linux branch difference that uses BaseALT experimental API
 
 Tested on: _Alt Regular JeOS (December 2025)_
 
+## Limitations
+- Not working with exotic archs. Probably due to unsupportion of them on `/export/branch_binary_packages/{branch}`
+
 ## Runtime dependencies
 ```zsh
 alt-branch-diff $ ldd ./target/release/cli
@@ -16,7 +19,7 @@ alt-branch-diff $ ldd ./target/release/cli
     libz.so.1
 ```
 
-## Build requierements
+## Build requierements(uncompleate)
 - gcc
 - libssl-devel
 - Rust toolchain (cargo, rustc)

@@ -1,9 +1,6 @@
 use clap::Parser;
 use altrepolib::helpers::get_branch_diff;
 
-const BRANCH_1: &str = "sisyphus";
-const BRANCH_2: &str = "p11";
-
 #[derive(Parser)]
 struct Args {
     branch_1: String,
