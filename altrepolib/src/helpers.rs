@@ -15,22 +15,38 @@ pub async fn get_branch_diff(branch_1: &str, branch_2: &str) -> anyhow::Result<D
             .into_iter()
             .collect::<HashSet<PackageInfo>>();
 
+        let b1_packages_names = b1_packages.clone().into_iter().map(|el| {el.name}).collect::<HashSet<String>>();
+
         let b2_packages = get_branch_binary_packages(branch_2, Some(arch))
             .await?
             .packages
             .into_iter()
             .collect::<HashSet<PackageInfo>>();
 
-        let a: Vec<PackageInfo> = b1_packages
-            .difference(&b2_packages)
-            .into_iter()
+        let b2_packages_names = b2_packages.clone().into_iter().map(|el| {el.name}).collect::<HashSet<String>>();
+
+
+        let a_names = b1_packages_names
+            .difference(&b2_packages_names)
             .cloned()
-            .collect();
-        let b: Vec<PackageInfo> = b2_packages
-            .difference(&b1_packages)
+            .collect::<HashSet<String>>();
+        
+        let a_packages = b1_packages
+            .clone()
             .into_iter()
+            .filter(|el| {a_names.contains(&el.name)})
+            .collect::<Vec<PackageInfo>>();
+
+        let b_names = b2_packages_names
+            .difference(&b1_packages_names)
             .cloned()
-            .collect();
+            .collect::<HashSet<String>>();
+        
+        let b_packages = b2_packages
+            .clone()
+            .into_iter()
+            .filter(|el| {b_names.contains(&el.name)})
+            .collect::<Vec<PackageInfo>>();
 
         let c: Vec<PackageInfo> = b1_packages
             .into_iter()
@@ -39,7 +55,7 @@ pub async fn get_branch_diff(branch_1: &str, branch_2: &str) -> anyhow::Result<D
             .map(|el| { el.0 })
             .collect();
 
-        result.insert(arch.to_string(), DiffResultArch { additional_packages: a, missing_packages: b, version_greater: c });
+        result.insert(arch.to_string(), DiffResultArch { additional_packages: a_packages, missing_packages: b_packages, version_greater: c });
     }
 
     Ok(result)

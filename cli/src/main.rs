@@ -4,7 +4,7 @@ use std::collections::{HashMap, HashSet};
 // use altrepolib::api::packageset::get_repository_statistics;
 use altrepolib::helpers::{get_branch_diff, get_full_list_of_architectures, get_list_of_architectures, get_list_of_branches};
 
-const BRANCH_1: &str = "p10";
+const BRANCH_1: &str = "sisyphus";
 const BRANCH_2: &str = "p11";
 
 #[tokio::main]
